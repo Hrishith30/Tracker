@@ -8,7 +8,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: ['http://localhost:3000', 'https://tracker-s3cp.onrender.com'],
   credentials: true
 }));
 app.use(express.json());
