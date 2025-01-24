@@ -20,6 +20,7 @@
   font-size: 1.5rem;
   font-weight: 600;
   letter-spacing: -0.5px;
+  flex-shrink: 0; /* Prevent logo from shrinking */
 }
 
 .navbar-logo {
@@ -37,9 +38,10 @@
 .navbar-menu {
   display: flex;
   gap: 1rem;
-  justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  flex: 1;
+  justify-content: center;
 }
 
 /* Navigation items */
@@ -50,7 +52,8 @@
   border-radius: 6px;
   font-weight: 500;
   transition: all 0.2s ease;
-  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .nav-item:hover {
@@ -61,6 +64,44 @@
 .nav-item.active {
   background-color: rgba(255, 255, 255, 0.15);
   color: white;
+}
+
+/* User authentication section */
+.auth-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.user-welcome {
+  color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+}
+
+.login-button,
+.register-button,
+.logout-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.register-button {
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #2c3e50;
+}
+
+.logout-button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  cursor: pointer;
 }
 
 /* Mobile menu button */
@@ -76,7 +117,6 @@
 
 /* Responsive design */
 @media (min-width: 1441px) {
-  /* For 4K and larger displays */
   .navbar {
     padding: 1.5rem 4rem;
   }
@@ -106,7 +146,6 @@
 }
 
 @media (max-width: 1024px) {
-  /* For tablets landscape */
   .navbar {
     padding: 1rem 1.5rem;
   }
@@ -117,10 +156,9 @@
 }
 
 @media (max-width: 768px) {
-  /* For tablets portrait and mobile landscape */
   .navbar {
     flex-direction: column;
-    padding: 0.5rem;
+    padding: 0;
   }
 
   .navbar-header {
@@ -128,7 +166,7 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    padding: 0.5rem;
+    padding: 1rem;
   }
 
   .menu-button {
@@ -141,36 +179,41 @@
     display: none;
     flex-direction: column;
     width: 100%;
-    gap: 0.5rem;
-    padding: 0.5rem;
-    background: linear-gradient(to right, #2c3e50, #3a506b);
+    padding: 0;
+    margin: 0;
   }
 
   .navbar-menu.open {
-    display: flex !important;
+    display: flex;
     position: absolute;
     top: 100%;
     left: 0;
     right: 0;
+    background: linear-gradient(to right, #2c3e50, #3a506b);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
 
   .nav-item {
     width: 100%;
-    text-align: center;
+    justify-content: center;
     padding: 1rem;
+    border-radius: 0;
   }
 
-  .user-welcome {
-    display: flex;
-    justify-content: center;
-    margin-left: 0;
+  .auth-section {
+    width: 100%;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 0;
   }
 
-  .login-button {
-    display: flex;
+  .user-welcome,
+  .login-button,
+  .register-button,
+  .logout-button {
+    width: 100%;
     justify-content: center;
-    margin-left: 0;
+    padding: 1rem;
   }
 }
 
@@ -191,18 +234,16 @@
 }
 
 @media (max-width: 480px) {
-  /* For medium mobile phones */
-  .navbar {
-    padding: 0.5rem;
-  }
-
   .navbar-brand {
     font-size: 1.25rem;
   }
 
-  .nav-item {
-    padding: 0.625rem;
+  .nav-item,
+  .login-button,
+  .register-button,
+  .logout-button {
     font-size: 0.95rem;
+    padding: 0.875rem;
   }
 }
 
@@ -240,39 +281,4 @@
 
 .navbar-menu.open {
   animation: slideDown 0.3s ease forwards;
-}
-
-/* User welcome message */
-.user-welcome {
-  color: rgba(255, 255, 255, 0.9);
-  margin-left: auto; /* Pushes the welcome message and logout to the right */
-}
-
-/* Login button */
-.login-button {
-  margin-left: auto; /* Pushes login/register to the right when user is not logged in */
-  color: rgba(255, 255, 255, 0.9);
-}
-
-/* Register button */
-.register-button {
-  background-color: rgba(255, 255, 255, 0.9);
-  color: #2c3e50;
-}
-
-.register-button:hover {
-  background-color: white;
-  color: #2c3e50;
-}
-
-/* Logout button */
-.logout-button {
-  background-color: #e74c3c;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-.logout-button:hover {
-  background-color: #c0392b;
 } 
