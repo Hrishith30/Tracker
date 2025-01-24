@@ -1,47 +1,45 @@
+/* Base mobile-first styles */
 .daily-routine {
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 1.5rem;
-  gap: 2rem;
+  padding: 0.5rem;
+  gap: 1rem;
 }
 
 .routine-header {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  padding: 0 1rem;
-  position: relative;
+  gap: 0.75rem;
+  padding: 0.5rem;
 }
 
 .routine-header h1 {
-  font-size: 2rem;
+  font-size: 1.25rem;
   color: var(--text-primary);
   margin: 0;
   text-align: center;
-  flex: 1;
 }
 
 .date-picker {
-  padding: 0.75rem;
+  width: 100%;
+  padding: 0.625rem;
   border: 1px solid var(--border-color);
   border-radius: 8px;
   font-size: 1rem;
-  width: 200px;
-  transition: border-color 0.2s ease;
 }
 
 .routine-grid {
   display: flex;
-  gap: 2rem;
-  min-height: calc(100vh - 200px);
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
 }
 
 .entries-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
 }
 
@@ -51,31 +49,16 @@
   background: var(--card-bg);
   border-radius: 12px;
   box-shadow: var(--card-shadow);
-  padding: 1.5rem;
+  padding: 1rem;
+  width: 100%;
 }
 
-.routine-form-card {
-  flex: 0 0 400px;
-  height: fit-content;
-  position: sticky;
-  top: 1.5rem;
-}
-
-.routine-list-card {
-  flex: 1;
-  min-width: 0;
-}
-
+/* Form styles optimized for touch */
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  margin-bottom: 1.25rem;
-}
-
-.form-group label {
-  font-weight: 500;
-  color: var(--text-primary);
+  gap: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .form-group input,
@@ -85,42 +68,152 @@
   padding: 0.75rem;
   border: 1px solid var(--border-color);
   border-radius: 8px;
-  font-size: 1rem;
-  transition: border-color 0.2s ease;
-}
-
-.form-group textarea {
-  min-height: 60px;
-  max-height: 60px;
-  resize: none;
-}
-
-.form-group textarea[name="notes"] {
-  min-height: 60px;
-  max-height: 60px;
-}
-
-.form-group textarea[name="reflection"] {
-  min-height: 60px;
-  max-height: 60px;
+  font-size: 16px; /* Prevents iOS zoom on focus */
+  -webkit-appearance: none;
+  appearance: none; /* Removes iOS default styles */
 }
 
 .submit-btn {
-  width: calc(100% - 1rem);
-  margin: 0.5rem;
-  padding: 0.75rem;
+  width: 100%;
+  padding: 0.875rem;
   background: var(--primary-color);
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   font-size: 1rem;
   cursor: pointer;
-  transition: background 0.3s ease;
-  margin-top: auto;
+  -webkit-tap-highlight-color: transparent; /* Removes tap highlight on iOS */
 }
 
-.submit-btn:hover {
-  background: var(--primary-dark);
+/* Routine items optimized for mobile */
+.routine-item {
+  background: var(--card-bg);
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+}
+
+.routine-content {
+  padding: 0.875rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.routine-info {
+  flex: 1;
+}
+
+.routine-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+/* Touch-friendly delete button */
+.delete-btn {
+  min-width: 44px; /* Minimum touch target size */
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--danger-color);
+  font-size: 1.5rem;
+}
+
+/* Tablet breakpoint */
+@media (min-width: 768px) {
+  .daily-routine {
+    padding: 1rem;
+  }
+
+  .routine-header {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1rem;
+  }
+
+  .routine-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .date-picker {
+    width: 250px;
+  }
+
+  .entries-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+/* Desktop breakpoint */
+@media (min-width: 1024px) {
+  .daily-routine {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1.5rem;
+  }
+
+  .routine-grid {
+    flex-direction: row;
+    gap: 2rem;
+  }
+
+  .routine-form-card {
+    flex: 0 0 350px;
+    position: sticky;
+    top: 1.5rem;
+  }
+
+  .routine-list-card {
+    flex: 1;
+  }
+
+  .routine-header h1 {
+    font-size: 2rem;
+  }
+
+  .routine-content {
+    flex-direction: row;
+  }
+}
+
+/* Large desktop breakpoint */
+@media (min-width: 1440px) {
+  .daily-routine {
+    max-width: 1800px;
+  }
+
+  .routine-form-card {
+    flex: 0 0 400px;
+  }
+}
+
+/* Category colors with improved contrast */
+.category-work { border-left: 4px solid #4a90e2; }
+.category-exercise { border-left: 4px solid #2ecc71; }
+.category-study { border-left: 4px solid #9b59b6; }
+.category-selfCare { border-left: 4px solid #e91e63; }
+.category-meals { border-left: 4px solid #f39c12; }
+.category-leisure { border-left: 4px solid #1abc9c; }
+.category-important { border-left: 4px solid #e74c3c; }
+.category-health { border-left: 4px solid #3498db; }
+
+/* iOS/Android specific optimizations */
+@supports (-webkit-touch-callout: none) {
+  /* iOS-specific styles */
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    font-size: 16px;
+  }
+  
+  .routine-content {
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 .routine-timeline {
@@ -134,20 +227,6 @@
   border-radius: 8px;
   box-shadow: var(--card-shadow);
   margin-bottom: 0.5rem;
-}
-
-.routine-content {
-  padding: 1rem;
-  border-radius: 8px;
-  background: #f8f9fa;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 1rem;
-}
-
-.routine-info {
-  flex: 1;
 }
 
 .routine-header {
@@ -207,84 +286,6 @@
   font-size: 0.9rem;
   color: var(--text-secondary);
   line-height: 1.4;
-}
-
-.routine-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.delete-btn {
-  background: none;
-  border: none;
-  color: var(--danger-color);
-  cursor: pointer;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  transition: all 0.2s ease;
-}
-
-.delete-btn::after {
-  content: "×";
-  font-size: 1.4rem;
-  line-height: 1;
-}
-
-.delete-btn:hover {
-  background-color: var(--danger-light);
-}
-
-.checkbox-container {
-  position: relative;
-  padding-left: 25px;
-  cursor: pointer;
-}
-
-.checkbox-container input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-}
-
-.checkmark {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 18px;
-  width: 18px;
-  background-color: white;
-  border: 2px solid var(--border-color);
-  border-radius: 4px;
-}
-
-.checkbox-container:hover input ~ .checkmark {
-  border-color: var(--primary-color);
-}
-
-.checkbox-container input:checked ~ .checkmark {
-  background-color: var(--success-color);
-  border-color: var(--success-color);
-}
-
-.checkmark:after {
-  content: "";
-  position: absolute;
-  display: none;
-}
-
-.checkbox-container input:checked ~ .checkmark:after {
-  display: block;
-}
-
-.checkbox-container .checkmark:after {
-  left: 4px;
-  top: -1px;
-  width: 5px;
-  height: 10px;
-  border: solid white;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
 }
 
 .routine-item.completed .routine-content {
@@ -405,57 +406,6 @@
 
 .routine-form-card::-webkit-scrollbar-thumb:hover {
   background: var(--text-secondary);
-}
-
-/* Category colors */
-.category-work { border-left: 3px solid #4a90e2; }
-.category-exercise { border-left: 3px solid #2ecc71; }
-.category-study { border-left: 3px solid #9b59b6; }
-.category-selfCare { border-left: 3px solid #e91e63; }
-.category-meals { border-left: 3px solid #f39c12; }
-.category-leisure { border-left: 3px solid #1abc9c; }
-.category-important { border-left: 3px solid #e74c3c; }
-.category-health { border-left: 3px solid #3498db; }
-
-.reflection-timeline {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.reflection-item {
-  background: var(--card-bg);
-  border-radius: 8px;
-  box-shadow: var(--card-shadow);
-  margin-bottom: 0.5rem;
-}
-
-.reflection-content {
-  padding: 1rem;
-  border-radius: 8px;
-  background: #f8f9fa;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 1rem;
-}
-
-.reflection-info {
-  flex: 1;
-}
-
-.reflection-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.5rem;
-}
-
-.reflection-text {
-  margin: 0.5rem 0;
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  line-height: 1.4;
 }
 
 /* Style for different entry types */
