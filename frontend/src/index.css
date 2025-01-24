@@ -1,0 +1,162 @@
+/* CSS Variables */
+:root {
+  /* Colors */
+  --primary-color: #4a90e2;
+  --primary-dark: #357abd;
+  --secondary-color: #6c757d;
+  --secondary-dark: #545b62;
+  
+  /* Status colors */
+  --success-color: #4caf50;
+  --success-light: #e8f5e9;
+  --warning-color: #ff9800;
+  --warning-light: #fff3e0;
+  --danger-color: #dc3545;
+  --danger-light: #ffebee;
+  --info-color: #2196f3;
+  --info-light: #e3f2fd;
+  
+  /* Text colors */
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --text-muted: #999999;
+  
+  /* Background colors */
+  --app-bg: #f8f9fa;
+  --card-bg: white;
+  --hover-bg: #f8f9fa;
+  --badge-bg: rgba(0, 0, 0, 0.05);
+  
+  /* Border colors */
+  --border-color: #dddddd;
+  --border-light: #eeeeee;
+  
+  /* Shadows */
+  --card-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --header-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  
+  /* Border radius */
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 12px;
+  
+  /* Updated Breakpoints */
+  --xs-breakpoint: 360px;    /* Small phones */
+  --sm-breakpoint: 480px;    /* Mobile phones */
+  --md-breakpoint: 768px;    /* Tablets */
+  --lg-breakpoint: 1024px;   /* Small laptops */
+  --xl-breakpoint: 1200px;   /* Laptops */
+  --xxl-breakpoint: 1440px;  /* Large laptops */
+  --xxxl-breakpoint: 1920px; /* Desktop monitors */
+  --4k-breakpoint: 2560px;   /* 4K displays */
+  
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+/* Reset styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Base styles */
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--app-bg);
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+/* Code styles */
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+  background-color: var(--badge-bg);
+  padding: 0.2em 0.4em;
+  border-radius: var(--border-radius-sm);
+  font-size: 0.9em;
+}
+
+/* Root container */
+#root {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Focus styles */
+:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* Selection styles */
+::selection {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* Scrollbar styles */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--app-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--secondary-color);
+  border-radius: var(--border-radius-sm);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary-dark);
+}
+
+/* Additional responsive font sizes */
+@media (min-width: 2560px) {
+  html { font-size: 18px; }
+}
+
+@media (max-width: 1920px) {
+  html { font-size: 16px; }
+}
+
+@media (max-width: 1024px) {
+  html { font-size: 15px; }
+}
+
+@media (max-width: 768px) {
+  html { font-size: 14px; }
+}
+
+@media (max-width: 480px) {
+  html { font-size: 13px; }
+}

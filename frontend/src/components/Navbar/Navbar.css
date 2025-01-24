@@ -1,0 +1,264 @@
+/* Base navbar styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: linear-gradient(to right, #2c3e50, #3a506b);
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* Brand/logo styles */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+
+.navbar-logo {
+  color: white;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+  outline: none;
+}
+
+.navbar-logo:hover {
+  opacity: 0.9;
+}
+
+/* Navigation menu */
+.navbar-menu {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Navigation items */
+.nav-item {
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.nav-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.nav-item.active {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: white;
+}
+
+/* Mobile menu button */
+.menu-button {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+/* Responsive design */
+@media (min-width: 1441px) {
+  /* For 4K and larger displays */
+  .navbar {
+    padding: 1.5rem 4rem;
+  }
+
+  .navbar-brand {
+    font-size: 1.8rem;
+  }
+
+  .nav-item {
+    font-size: 1.2rem;
+    padding: 0.7rem 1.4rem;
+  }
+}
+
+@media (max-width: 1440px) {
+  /* For regular desktop */
+  .navbar {
+    padding: 1rem 3rem;
+  }
+}
+
+@media (max-width: 1200px) {
+  /* For small desktop/large tablet landscape */
+  .navbar {
+    padding: 1rem 2rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  /* For tablets landscape */
+  .navbar {
+    padding: 1rem 1.5rem;
+  }
+  
+  .navbar-menu {
+    gap: 0.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  /* For tablets portrait and mobile landscape */
+  .navbar {
+    flex-direction: column;
+    padding: 0.75rem;
+  }
+
+  .navbar-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+  }
+
+  .menu-button {
+    display: block;
+  }
+
+  .navbar-menu {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+
+  .navbar-menu.open {
+    display: flex;
+  }
+
+  .nav-item {
+    width: 100%;
+    text-align: center;
+    padding: 0.75rem;
+  }
+
+  .user-welcome {
+    margin-left: 0;
+    text-align: center;
+  }
+
+  .login-button {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  /* For larger mobile phones */
+  .navbar {
+    padding: 0.6rem;
+  }
+
+  .navbar-brand {
+    font-size: 1.3rem;
+  }
+
+  .nav-item {
+    padding: 0.7rem;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  /* For medium mobile phones */
+  .navbar {
+    padding: 0.5rem;
+  }
+
+  .navbar-brand {
+    font-size: 1.25rem;
+  }
+
+  .nav-item {
+    padding: 0.625rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 360px) {
+  /* For small mobile phones */
+  .navbar {
+    padding: 0.4rem;
+  }
+
+  .navbar-brand {
+    font-size: 1.1rem;
+  }
+
+  .nav-item {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .navbar-menu {
+    gap: 0.3rem;
+  }
+}
+
+/* Animations */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.navbar-menu.open {
+  animation: slideDown 0.3s ease forwards;
+}
+
+/* User welcome message */
+.user-welcome {
+  color: rgba(255, 255, 255, 0.9);
+  margin-left: auto; /* Pushes the welcome message and logout to the right */
+}
+
+/* Login button */
+.login-button {
+  margin-left: auto; /* Pushes login/register to the right when user is not logged in */
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Register button */
+.register-button {
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #2c3e50;
+}
+
+.register-button:hover {
+  background-color: white;
+  color: #2c3e50;
+}
+
+/* Logout button */
+.logout-button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background-color: #c0392b;
+} 

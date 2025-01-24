@@ -1,0 +1,253 @@
+.expenses {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  gap: 2rem;
+}
+
+.expenses-grid {
+  display: flex;
+  gap: 2rem;
+  min-height: calc(100vh - 200px);
+}
+
+.form-card,
+.transactions-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  padding: 1.5rem;
+}
+
+.form-card {
+  flex: 0 0 400px;
+  height: fit-content;
+  position: sticky;
+  top: 1.5rem;
+}
+
+.transactions-card {
+  flex: 1;
+  min-width: 0;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.form-group label {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: #2c3e50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+  background: #34495e;
+}
+
+.transactions-table {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+th, td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+th {
+  background: var(--hover-bg);
+  font-weight: 600;
+  color: var(--text-primary);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.type-badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  text-transform: capitalize;
+}
+
+.type-badge.expense {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.type-badge.income {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+td.income {
+  color: #2e7d32;
+}
+
+td.expense {
+  color: #c62828;
+}
+
+@media (min-width: 2560px) {
+  .expenses {
+    max-width: 2000px;
+    padding: 2rem;
+  }
+  
+  .form-card {
+    flex: 0 0 500px;
+  }
+}
+
+@media (min-width: 1920px) {
+  .expenses {
+    max-width: 1800px;
+  }
+  
+  .form-card {
+    flex: 0 0 450px;
+  }
+}
+
+@media (max-width: 1440px) {
+  .expenses {
+    max-width: 1200px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .expenses-grid {
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .expenses-grid {
+    flex-direction: column;
+  }
+  
+  .form-card {
+    position: static;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .expenses {
+    padding: 1rem;
+  }
+  
+  th, td {
+    padding: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .expenses {
+    padding: 0.75rem;
+  }
+  
+  th, td {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .expenses {
+    padding: 0.5rem;
+  }
+  
+  th, td {
+    padding: 0.4rem;
+    font-size: 0.85rem;
+  }
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.error-message {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 4px;
+  border: 1px solid #ef9a9a;
+}
+
+.delete-btn {
+  background: none;
+  border: none;
+  color: #dc3545;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-btn:hover {
+  background-color: #ffebee;
+  color: #c82333;
+}
+
+.delete-btn::after {
+  content: "×";
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.transactions-table.loading {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.no-transactions {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+  font-style: italic;
+} 

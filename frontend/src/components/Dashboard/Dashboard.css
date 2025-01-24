@@ -1,0 +1,332 @@
+/* Dashboard Layout */
+.dashboard {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dashboard h1 {
+  color: #2c3e50;
+  margin-bottom: 2rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+  align-items: stretch;
+}
+
+/* Card Styling */
+.dashboard-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+}
+
+.dashboard-card h2 {
+  color: #34495e;
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+/* Status Grid Layout */
+.status-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1.5rem;
+  text-align: center;
+  flex: 1;
+  align-items: center;
+}
+
+.status-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Status Circles */
+.status-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+  transition: transform 0.2s ease;
+}
+
+.status-circle:hover {
+  transform: scale(1.05);
+}
+
+.status-number {
+  color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.status-label {
+  color: #7f8c8d;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Status Circle Colors */
+.pending {
+  background: #f39c12;
+  box-shadow: 0 2px 4px rgba(243, 156, 18, 0.3);
+}
+
+.completed {
+  background: #27ae60;
+  box-shadow: 0 2px 4px rgba(39, 174, 96, 0.3);
+}
+
+.total {
+  background: #3498db;
+  box-shadow: 0 2px 4px rgba(52, 152, 219, 0.3);
+}
+
+/* Financial Status Styling */
+.financial-status {
+  text-align: center;
+  padding: 1.5rem;
+  border-radius: 8px;
+  transition: transform 0.2s ease;
+}
+
+.financial-status:hover {
+  transform: scale(1.02);
+}
+
+.financial-status .amount {
+  display: block;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+/* Financial Status Colors */
+.profit {
+  background: rgba(39, 174, 96, 0.1);
+  color: #27ae60;
+}
+
+.debt {
+  background: rgba(231, 76, 60, 0.1);
+  color: #e74c3c;
+}
+
+.neutral {
+  background: rgba(52, 152, 219, 0.1);
+  color: #3498db;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .status-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+}
+
+/* Additional Device Support */
+/* For ultra-wide screens */
+@media screen and (min-width: 1921px) {
+  .dashboard {
+    max-width: 1800px;
+    padding: 3rem;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  }
+
+  .status-circle {
+    width: 100px;
+    height: 100px;
+  }
+
+  .status-number {
+    font-size: 1.75rem;
+  }
+}
+
+/* For tablets and smaller laptops */
+@media screen and (max-width: 1024px) and (min-width: 769px) {
+  .dashboard {
+    padding: 1.5rem;
+  }
+
+  .status-circle {
+    width: 75px;
+    height: 75px;
+  }
+}
+
+/* For tablets in portrait and large phones */
+@media screen and (max-width: 768px) and (min-width: 481px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .financial-status .amount {
+    font-size: 1.75rem;
+  }
+}
+
+/* For small phones */
+@media screen and (max-width: 480px) {
+  .dashboard {
+    padding: 1rem;
+  }
+
+  .dashboard h1 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .dashboard-card {
+    padding: 1rem;
+  }
+
+  .status-circle {
+    width: 60px;
+    height: 60px;
+  }
+
+  .status-number {
+    font-size: 1.125rem;
+  }
+
+  .financial-status .amount {
+    font-size: 1.5rem;
+  }
+}
+
+/* For landscape orientation on mobile devices */
+@media screen and (max-height: 480px) and (orientation: landscape) {
+  .dashboard {
+    padding: 1rem;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .status-circle {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+/* For high-density (retina) displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .dashboard-card {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  }
+}
+
+/* For reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-card,
+  .status-circle,
+  .financial-status {
+    transition: none;
+  }
+}
+
+/* Dark Mode - Only applies when .dark-mode class is present */
+.dark-mode .dashboard-card {
+  background: #2c3e50;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.dark-mode .dashboard h1,
+.dark-mode .dashboard-card h2 {
+  color: #ecf0f1;
+}
+
+.dark-mode .status-label {
+  color: #bdc3c7;
+}
+
+/* Print styles */
+@media print {
+  .dashboard {
+    padding: 0;
+  }
+
+  .dashboard-card {
+    box-shadow: none;
+    border: 1px solid #ddd;
+    break-inside: avoid;
+  }
+
+  .status-circle {
+    border: 2px solid currentColor;
+  }
+}
+
+.full-width {
+  grid-column: 1 / -1;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  margin-top: 20px;
+}
+
+.chart-container {
+  position: relative;
+  height: 300px;
+  width: 85%;
+  padding: 12px;
+  background: white;
+  border-radius: 8px;
+  margin: 0 auto;
+}
+
+.dashboard-card h2 {
+  color: #333;
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+@media (max-width: 768px) {
+  .chart-container {
+    height: 250px;
+    padding: 8px;
+  }
+}
