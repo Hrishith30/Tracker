@@ -1,7 +1,7 @@
 /* Base navbar styles */
 .navbar {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
   background: linear-gradient(to right, #2c3e50, #3a506b);
@@ -14,10 +14,9 @@
 
 /* Brand/logo styles */
 .navbar-brand {
-  display: grid;
-  grid-template-columns: auto auto;
-  gap: 0.5rem;
+  display: flex;
   align-items: center;
+  gap: 0.5rem;
   font-size: 1.5rem;
   font-weight: 600;
   letter-spacing: -0.5px;
@@ -36,11 +35,11 @@
 
 /* Navigation menu */
 .navbar-menu {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, max-content));
+  display: flex;
   gap: 1rem;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 /* Navigation items */
@@ -119,12 +118,12 @@
 @media (max-width: 768px) {
   /* For tablets portrait and mobile landscape */
   .navbar {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+    padding: 0.5rem;
   }
 
   .navbar-header {
-    display: grid;
-    grid-template-columns: auto auto;
+    display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
@@ -137,14 +136,14 @@
 
   .navbar-menu {
     display: none;
-    grid-template-columns: 1fr;
+    flex-direction: column;
     width: 100%;
     gap: 0.5rem;
     padding: 0.5rem;
   }
 
   .navbar-menu.open {
-    display: grid;
+    display: flex;
   }
 
   .nav-item {
