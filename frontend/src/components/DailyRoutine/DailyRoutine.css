@@ -332,6 +332,36 @@
   .routine-form-card {
     position: static;
     width: 100%;
+    order: 1;
+  }
+
+  .routine-timeline {
+    order: 2;
+  }
+
+  .date-picker {
+    width: 100%;
+  }
+
+  .routine-grid {
+    gap: 1rem;
+  }
+
+  /* Remove fixed heights that were causing the content to be cut off */
+  .routine-form-card,
+  .routine-list-card {
+    height: auto;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .form-group {
+    margin-bottom: 0.75rem;
+  }
+
+  .form-group textarea {
+    min-height: 80px;
+    max-height: none;
   }
 }
 
