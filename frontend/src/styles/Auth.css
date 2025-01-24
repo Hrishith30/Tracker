@@ -4,9 +4,8 @@
   overflow: hidden;
   background: linear-gradient(135deg, #fff5e6, #fff9f0, #fffaf4);  /* Creamy white gradient */
   padding: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  place-items: center;
   position: fixed;
   top: 0;
   left: 0;
@@ -47,14 +46,13 @@
 }
 
 .auth-form {
-  display: flex;
-  flex-direction: column;
+  display: grid;
   gap: 1rem;
 }
 
 .form-group {
-  position: relative;
-  margin-bottom: 0.5rem;
+  display: grid;
+  gap: 0.5rem;
 }
 
 .form-input {
@@ -170,13 +168,13 @@
   z-index: 1000;
   min-width: 300px;
   text-align: center;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 1rem;
   font-size: 0.95rem;
   font-weight: 500;
   letter-spacing: 0.3px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   animation: slideIn 0.3s ease-in-out;
 }
 
@@ -207,8 +205,8 @@
 
 .input-with-icon {
   position: relative;
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr;
 }
 
 .input-icon {
