@@ -68,8 +68,18 @@ router.get('/stats', async (req, res) => {
     
     if (startDate || endDate) {
       dateQuery = {};
-      if (startDate) dateQuery.$gte = new Date(startDate);
-      if (endDate) dateQuery.$lte = new Date(endDate);
+      if (startDate) {
+        // Convert local date to UTC for query
+        const startUTC = new Date(startDate);
+        startUTC.setUTCHours(0, 0, 0, 0);
+        dateQuery.$gte = startUTC;
+      }
+      if (endDate) {
+        // Convert local date to UTC for query
+        const endUTC = new Date(endDate);
+        endUTC.setUTCHours(23, 59, 59, 999);
+        dateQuery.$lte = endUTC;
+      }
     }
 
     const stats = await Expense.aggregate([

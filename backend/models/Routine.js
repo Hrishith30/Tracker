@@ -34,9 +34,21 @@ const routineSchema = new mongoose.Schema({
   },
   date: {
     type: Date,
+    get: function(date) {
+      if (!date) return null;
+      // Convert to local ISO string without timezone offset
+      return new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
+        .toISOString()
+        .split('T')[0];
+    }
+  },
+  createdAt: {
+    type: Date,
     default: Date.now,
     get: function(date) {
-      return date.toISOString();
+      // Convert to local ISO string
+      return new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
+        .toISOString();
     }
   },
   user: {
@@ -44,6 +56,10 @@ const routineSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   }
+}, {
+  timestamps: true,
+  toJSON: { getters: true },
+  toObject: { getters: true }
 });
 
 module.exports = mongoose.model('Routine', routineSchema); 

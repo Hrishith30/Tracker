@@ -13,7 +13,10 @@ const taskSchema = new mongoose.Schema({
   dueDate: {
     type: Date,
     get: function(date) {
-      return date ? date.toISOString() : null;
+      if (!date) return null;
+      // Convert to local ISO string without timezone offset
+      return new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
+        .toISOString();
     }
   },
   priority: {
@@ -30,7 +33,9 @@ const taskSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
     get: function(date) {
-      return date.toISOString();
+      // Convert to local ISO string
+      return new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
+        .toISOString();
     }
   },
   user: {

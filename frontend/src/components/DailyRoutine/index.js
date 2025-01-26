@@ -244,7 +244,15 @@ function DailyRoutine() {
                         {routine.reflection && (
                           <p className="routine-reflection">{routine.reflection}</p>
                         )}
-                        <span className="routine-time">{formatLocalDateTime(routine.date)}</span>
+                        <span className="routine-time">
+                          {new Date(routine.date).toLocaleString('en-US', {
+                            hour: 'numeric',
+                            minute: '2-digit',
+                            hour12: true,
+                            month: 'short',
+                            day: 'numeric'
+                          })}
+                        </span>
                       </div>
                       <div className="routine-actions">
                         <button

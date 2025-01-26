@@ -9,7 +9,9 @@ function Tasks() {
   const [newTask, setNewTask] = useState({
     title: '',
     description: '',
-    dueDate: getLocalISOString().split('T')[0],
+    dueDate: new Date(Date.now() - (new Date().getTimezoneOffset() * 60000))
+      .toISOString()
+      .slice(0, 16),
     priority: 'medium',
     status: 'pending'
   });
@@ -44,19 +46,21 @@ function Tasks() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log('Submitting task:', newTask);
+      // Convert to local time before sending to server
+      const localDate = new Date(newTask.dueDate);
       const taskToSubmit = {
         ...newTask,
-        dueDate: `${newTask.dueDate}T00:00:00.000Z`
+        dueDate: new Date(localDate.getTime() - (localDate.getTimezoneOffset() * 60000)).toISOString()
       };
-      const response = await taskApi.create(taskToSubmit);
-      console.log('Task created:', response.data);
       
+      const response = await taskApi.create(taskToSubmit);
       setTasks(prev => [response.data, ...prev]);
       setNewTask({
         title: '',
         description: '',
-        dueDate: getLocalISOString().split('T')[0],
+        dueDate: new Date(Date.now() - (new Date().getTimezoneOffset() * 60000))
+          .toISOString()
+          .slice(0, 16),
         priority: 'medium',
         status: 'pending'
       });
@@ -128,7 +132,7 @@ function Tasks() {
           
           <h3 className="thin-heading">Due</h3>
           <input
-            type="date"
+            type="datetime-local"
             name="dueDate"
             value={newTask.dueDate}
             onChange={handleInputChange}
@@ -179,7 +183,15 @@ function Tasks() {
                     </span>
                     {task.dueDate && (
                       <span className="due-date">
-                        Due: {formatLocalDateTime(task.dueDate).split(' ')[0]}
+                        Due: {new Date(new Date(task.dueDate).getTime() + 
+                          (new Date().getTimezoneOffset() * 60000)).toLocaleString(undefined, {
+                          year: 'numeric',
+                          month: '2-digit',
+                          day: '2-digit',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                          hour12: true,
+                        })}
                       </span>
                     )}
                     <span className={`status ${task.status}`}>
@@ -189,14 +201,14 @@ function Tasks() {
                 </div>
                 <div className="task-actions">
                   <button
+                    className={`task-button ${task.status === 'completed' ? 'undo-button' : 'complete-button'}`}
                     onClick={() => handleToggleStatus(task._id, task.status)}
-                    className="task-button"
                   >
                     {task.status === 'completed' ? 'Undo' : 'Complete'}
                   </button>
                   <button
-                    onClick={() => handleDelete(task._id)}
                     className="task-button delete-button"
+                    onClick={() => handleDelete(task._id)}
                   >
                     Delete
                   </button>

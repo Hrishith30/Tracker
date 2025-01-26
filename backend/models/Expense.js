@@ -28,7 +28,9 @@ const expenseSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
     get: function(date) {
-      return date.toISOString();
+      // Convert to local ISO string
+      return new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
+        .toISOString();
     }
   },
   user: {

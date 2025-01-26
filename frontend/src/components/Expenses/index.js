@@ -12,7 +12,8 @@ function Expenses() {
     amount: '',
     category: '',
     description: '',
-    date: getLocalISOString().split('T')[0]
+    date: getLocalISOString().split('T')[0],
+    timestamp: new Date().getTime()
   });
 
   const categories = {
@@ -48,7 +49,8 @@ function Expenses() {
       const response = await expenseApi.create({
         ...formData,
         date: adjustedDate.toISOString(),
-        amount: parseFloat(formData.amount)
+        amount: parseFloat(formData.amount),
+        timestamp: new Date().getTime()
       });
       setTransactions([response.data, ...transactions]);
       // Reset form
@@ -57,7 +59,8 @@ function Expenses() {
         amount: '',
         category: '',
         description: '',
-        date: getLocalISOString().split('T')[0]
+        date: getLocalISOString().split('T')[0],
+        timestamp: new Date().getTime()
       });
       setError(null);
     } catch (err) {
