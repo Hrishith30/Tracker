@@ -33,6 +33,7 @@ const Login = () => {
 
   return (
     <div className="auth-container">
+      <FloatingEmojis />
       {toast.show && (
         <Toast 
           message={toast.message} 
@@ -114,6 +115,38 @@ const Login = () => {
           </p>
         </form>
       </div>
+    </div>
+  );
+};
+
+const FloatingEmojis = () => {
+  const emojis = ['🧠', '📚', '⏰', '💰', '🎓', '📊', '📈', '💡', '🎯', '📱', '💻', '🔍'];
+  const positions = Array(40).fill(null).map(() => ({
+    left: `${Math.random() * 90 + 5}%`,
+    top: `${Math.random() * 90 + 5}%`,
+    animationDelay: `${Math.random() * 2}s`,
+    animationDuration: `${10 + Math.random() * 10}s`,
+    direction: Math.random() > 0.5 ? 'normal' : 'reverse'
+  }));
+
+  return (
+    <div className="floating-emojis">
+      {positions.map((pos, i) => (
+        <div
+          key={i}
+          className="floating-emoji"
+          style={{
+            left: pos.left,
+            top: pos.top,
+            animationDelay: pos.animationDelay,
+            animationDuration: pos.animationDuration,
+            animationDirection: pos.direction,
+            fontSize: `${Math.random() * 0.5 + 0.8}em`
+          }}
+        >
+          {emojis[i % emojis.length]}
+        </div>
+      ))}
     </div>
   );
 };

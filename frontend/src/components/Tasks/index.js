@@ -9,7 +9,7 @@ function Tasks() {
   const [newTask, setNewTask] = useState({
     title: '',
     description: '',
-    dueDate: getLocalISOString(),
+    dueDate: getLocalISOString().slice(0, 16),
     priority: 'medium',
     status: 'pending'
   });
@@ -52,7 +52,7 @@ function Tasks() {
       setNewTask({
         title: '',
         description: '',
-        dueDate: getLocalISOString(),
+        dueDate: getLocalISOString().slice(0, 16),
         priority: 'medium',
         status: 'pending'
       });
@@ -124,7 +124,7 @@ function Tasks() {
           
           <h3 className="thin-heading">Due</h3>
           <input
-            type="date"
+            type="datetime-local"
             name="dueDate"
             value={newTask.dueDate}
             onChange={handleInputChange}
@@ -143,7 +143,7 @@ function Tasks() {
             <option value="high">High</option>
           </select>
           
-          <button type="submit" className="task-button">
+          <button type="submit" className="task-button submit-button">
             Add Task
           </button>
         </form>
@@ -152,7 +152,7 @@ function Tasks() {
             <select
               value={priorityFilter}
               onChange={(e) => setPriorityFilter(e.target.value)}
-              className="task-input"
+              className="task-input priority-filter-select"
             >
               <option value="all">All Priorities</option>
               <option value="low">Low</option>
@@ -164,7 +164,7 @@ function Tasks() {
             {filteredTasks.map(task => (
               <div 
                 key={task._id} 
-                className={`task-item ${task.status}`}
+                className={`task-item ${task.status} priority-${task.priority}`}
               >
                 <div className="task-content">
                   <h3>{task.title}</h3>
@@ -186,13 +186,13 @@ function Tasks() {
                 <div className="task-actions">
                   <button
                     onClick={() => handleToggleStatus(task._id, task.status)}
-                    className="task-button"
+                    className={`task-button ${task.status === 'completed' ? 'undo-button' : 'complete-button'}`}
                   >
                     {task.status === 'completed' ? 'Undo' : 'Complete'}
                   </button>
                   <button
                     onClick={() => handleDelete(task._id)}
-                    className="task-button"
+                    className="task-button delete-button"
                   >
                     Delete
                   </button>

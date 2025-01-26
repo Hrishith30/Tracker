@@ -60,9 +60,10 @@ function DailyRoutine() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const currentDateTime = new Date().toISOString();
       const response = await routineApi.create({
         ...formData,
-        date: selectedDate
+        date: `${selectedDate}T${currentDateTime.split('T')[1]}`
       });
       if (response.data.date.split('T')[0] === selectedDate) {
         setRoutines([...routines, response.data]);

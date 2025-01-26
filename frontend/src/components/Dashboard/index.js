@@ -16,6 +16,7 @@ ChartJS.register(
 
 function Dashboard() {
   const { user } = useAuth();
+  const [currentDateTime, setCurrentDateTime] = useState(new Date());
   const [stats, setStats] = useState({
     tasks: {
       pending: 0,
@@ -39,6 +40,14 @@ function Dashboard() {
 
   useEffect(() => {
     fetchDashboardData();
+
+    // Update time every second
+    const timer = setInterval(() => {
+      setCurrentDateTime(new Date());
+    }, 1000);
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(timer);
   }, []);
 
   const fetchDashboardData = async () => {
@@ -182,9 +191,13 @@ function Dashboard() {
 
   return (
     <div className="dashboard">
-      <center>
+      <div className="dashboard-header">
         <h1>Welcome, {user?.username || 'Guest'}!</h1>
-      </center>
+        <div className="datetime-display">
+          <div>{currentDateTime.toLocaleDateString()}</div>
+          <div>{currentDateTime.toLocaleTimeString()}</div>
+        </div>
+      </div>
       
       <div className="dashboard-grid">
         {/* Tasks Overview */}
