@@ -9,7 +9,7 @@ function Tasks() {
   const [newTask, setNewTask] = useState({
     title: '',
     description: '',
-    dueDate: getLocalISOString().slice(0, 16),
+    dueDate: getLocalISOString().split('T')[0],
     priority: 'medium',
     status: 'pending'
   });
@@ -45,14 +45,18 @@ function Tasks() {
     e.preventDefault();
     try {
       console.log('Submitting task:', newTask);
-      const response = await taskApi.create(newTask);
+      const taskToSubmit = {
+        ...newTask,
+        dueDate: `${newTask.dueDate}T00:00:00.000Z`
+      };
+      const response = await taskApi.create(taskToSubmit);
       console.log('Task created:', response.data);
       
       setTasks(prev => [response.data, ...prev]);
       setNewTask({
         title: '',
         description: '',
-        dueDate: getLocalISOString().slice(0, 16),
+        dueDate: getLocalISOString().split('T')[0],
         priority: 'medium',
         status: 'pending'
       });
@@ -124,7 +128,7 @@ function Tasks() {
           
           <h3 className="thin-heading">Due</h3>
           <input
-            type="datetime-local"
+            type="date"
             name="dueDate"
             value={newTask.dueDate}
             onChange={handleInputChange}
@@ -175,7 +179,7 @@ function Tasks() {
                     </span>
                     {task.dueDate && (
                       <span className="due-date">
-                        Due: {formatLocalDateTime(task.dueDate)}
+                        Due: {formatLocalDateTime(task.dueDate).split(' ')[0]}
                       </span>
                     )}
                     <span className={`status ${task.status}`}>
@@ -186,7 +190,7 @@ function Tasks() {
                 <div className="task-actions">
                   <button
                     onClick={() => handleToggleStatus(task._id, task.status)}
-                    className={`task-button ${task.status === 'completed' ? 'undo-button' : 'complete-button'}`}
+                    className="task-button"
                   >
                     {task.status === 'completed' ? 'Undo' : 'Complete'}
                   </button>

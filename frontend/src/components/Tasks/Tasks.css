@@ -172,53 +172,48 @@
 
 /* Button Styling */
 .task-button {
-  padding: 0.5rem 1rem;
+  padding: 8px 16px;
+  border-radius: 4px;
   border: none;
-  border-radius: 6px;
-  font-size: 0.85rem;
-  font-weight: 500;
   cursor: pointer;
+  font-weight: 500;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.complete-button {
-  background: linear-gradient(to bottom, #34c759, #2db84d) !important;
-  color: white !important;
-  border: 1px solid #28a745 !important;
-}
-
-.undo-button {
-  background: linear-gradient(to bottom, #ff9f0a, #f59300) !important;
-  color: white !important;
-  border: 1px solid #e68a00 !important;
-}
-
-.delete-button {
-  background: linear-gradient(to bottom, #ff3b30, #dc3545) !important;
-  color: white !important;
-  border: 1px solid #cc2c3d !important;
+  margin-left: 8px;
 }
 
 .task-button:hover {
-  opacity: 1;
   transform: translateY(-1px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .task-button:active {
-  opacity: 0.9;
   transform: translateY(0);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Complete/Undo button */
+.task-actions .task-button:not(.delete-button) {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.task-actions .task-button:not(.delete-button):hover {
+  background-color: #45a049;
+}
+
+/* Delete button */
+.task-button.delete-button {
+  background-color: #ff4444;
+  color: white;
+}
+
+.task-button.delete-button:hover {
+  background-color: #cc0000;
 }
 
 .task-actions {
   display: flex;
-  gap: 0.5rem;
-}
-
-.task-actions .task-button {
-  width: auto;
+  gap: 8px;
+  align-items: center;
 }
 
 /* Error Message Styling */
