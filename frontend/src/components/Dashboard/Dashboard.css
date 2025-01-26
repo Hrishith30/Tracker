@@ -189,6 +189,28 @@
     width: 75px;
     height: 75px;
   }
+
+  .dashboard-grid {
+    gap: 1.5rem;
+  }
+
+  .datetime-display {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+
+  .chart-container {
+    width: 90%;
+    height: 275px;
+  }
+
+  .dashboard-card h2 {
+    font-size: 1.3rem;
+  }
+
+  .financial-status .amount {
+    font-size: 1.8rem;
+  }
 }
 
 /* For tablets in portrait and large phones */
@@ -390,4 +412,98 @@
 
 .dark-mode .datetime-display div {
   color: #ecf0f1;
+}
+
+/* Enhanced Tablet Styles */
+@media screen and (max-width: 1024px) and (min-width: 769px) {
+  .dashboard {
+    padding: 1.5rem;
+  }
+
+  .status-circle {
+    width: 75px;
+    height: 75px;
+  }
+
+  .dashboard-grid {
+    gap: 1.5rem;
+  }
+
+  .datetime-display {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+
+  .chart-container {
+    width: 90%;
+    height: 275px;
+  }
+
+  .dashboard-card h2 {
+    font-size: 1.3rem;
+  }
+
+  .financial-status .amount {
+    font-size: 1.8rem;
+  }
+}
+
+/* Enhanced Mobile Styles */
+@media screen and (max-width: 768px) {
+  .dashboard-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .datetime-display {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .datetime-display div {
+    display: inline-block;
+    margin: 0 10px;
+  }
+
+  .chart-container {
+    width: 95%;
+    padding: 8px;
+  }
+
+  .dashboard-card {
+    margin-bottom: 1rem;
+  }
+
+  .financial-status {
+    padding: 1rem;
+  }
+
+  .status-grid {
+    gap: 1rem;
+  }
+}
+
+/* Small Mobile Devices */
+@media screen and (max-width: 480px) {
+  .datetime-display {
+    font-size: 0.8rem;
+    padding: 8px;
+  }
+
+  .datetime-display div {
+    display: block;
+    margin: 5px 0;
+  }
+
+  .chart-container {
+    height: 200px;
+  }
+
+  .dashboard-card h2 {
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+  }
 }
