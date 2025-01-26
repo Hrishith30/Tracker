@@ -11,7 +11,10 @@ const taskSchema = new mongoose.Schema({
     trim: true
   },
   dueDate: {
-    type: Date
+    type: Date,
+    get: function(date) {
+      return date ? date.toISOString() : null;
+    }
   },
   priority: {
     type: String,
@@ -25,7 +28,10 @@ const taskSchema = new mongoose.Schema({
   },
   createdAt: {
     type: Date,
-    default: Date.now
+    default: Date.now,
+    get: function(date) {
+      return date.toISOString();
+    }
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,

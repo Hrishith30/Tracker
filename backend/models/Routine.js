@@ -34,7 +34,10 @@ const routineSchema = new mongoose.Schema({
   },
   date: {
     type: Date,
-    default: Date.now
+    default: Date.now,
+    get: function(date) {
+      return date.toISOString();
+    }
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,

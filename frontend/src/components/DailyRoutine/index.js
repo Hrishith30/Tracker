@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { routineApi } from '../../services/api';
 import './DailyRoutine.css';
+import { formatLocalDateTime, getLocalISOString } from '../../utils/dateUtils';
 
 function DailyRoutine() {
   const [routines, setRoutines] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+  const [selectedDate, setSelectedDate] = useState(getLocalISOString().split('T')[0]);
   const [formData, setFormData] = useState({
     activity: '',
     category: 'work',
@@ -242,6 +243,7 @@ function DailyRoutine() {
                         {routine.reflection && (
                           <p className="routine-reflection">{routine.reflection}</p>
                         )}
+                        <span className="routine-time">{formatLocalDateTime(routine.date)}</span>
                       </div>
                       <div className="routine-actions">
                         <button

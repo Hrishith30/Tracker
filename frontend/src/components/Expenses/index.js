@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { expenseApi } from '../../services/api';
 import './Expenses.css';
+import { formatLocalDate, getLocalISOString } from '../../utils/dateUtils';
 
 function Expenses() {
   const [transactions, setTransactions] = useState([]);
@@ -11,7 +12,7 @@ function Expenses() {
     amount: '',
     category: '',
     description: '',
-    date: new Date().toISOString().split('T')[0]
+    date: getLocalISOString().split('T')[0]
   });
 
   const categories = {
@@ -56,7 +57,7 @@ function Expenses() {
         amount: '',
         category: '',
         description: '',
-        date: new Date().toISOString().split('T')[0]
+        date: getLocalISOString().split('T')[0]
       });
       setError(null);
     } catch (err) {
@@ -179,7 +180,7 @@ function Expenses() {
               <tbody>
                 {transactions.map(transaction => (
                   <tr key={transaction._id}>
-                    <td>{new Date(transaction.date).toLocaleDateString()}</td>
+                    <td>{formatLocalDate(transaction.date)}</td>
                     <td>
                       <span className={`type-badge ${transaction.type}`}>
                         {transaction.type}

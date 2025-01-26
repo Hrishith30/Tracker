@@ -19,11 +19,17 @@ const expenseSchema = new mongoose.Schema({
   },
   date: {
     type: Date,
-    required: true
+    required: true,
+    get: function(date) {
+      return date.toISOString();
+    }
   },
   createdAt: {
     type: Date,
-    default: Date.now
+    default: Date.now,
+    get: function(date) {
+      return date.toISOString();
+    }
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,

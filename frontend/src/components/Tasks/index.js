@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { taskApi } from '../../services/api';
 import './Tasks.css';
+import { formatLocalDateTime, getLocalISOString } from '../../utils/dateUtils';
 
 function Tasks() {
   const [tasks, setTasks] = useState([]);
@@ -8,7 +9,7 @@ function Tasks() {
   const [newTask, setNewTask] = useState({
     title: '',
     description: '',
-    dueDate: '',
+    dueDate: getLocalISOString(),
     priority: 'medium',
     status: 'pending'
   });
@@ -51,7 +52,7 @@ function Tasks() {
       setNewTask({
         title: '',
         description: '',
-        dueDate: '',
+        dueDate: getLocalISOString(),
         priority: 'medium',
         status: 'pending'
       });
@@ -174,7 +175,7 @@ function Tasks() {
                     </span>
                     {task.dueDate && (
                       <span className="due-date">
-                        Due: {new Date(task.dueDate).toLocaleDateString()}
+                        Due: {formatLocalDateTime(task.dueDate)}
                       </span>
                     )}
                     <span className={`status ${task.status}`}>
@@ -185,13 +186,13 @@ function Tasks() {
                 <div className="task-actions">
                   <button
                     onClick={() => handleToggleStatus(task._id, task.status)}
-                    className={`task-button ${task.status === 'completed' ? 'undo' : 'complete'}`}
+                    className="task-button"
                   >
                     {task.status === 'completed' ? 'Undo' : 'Complete'}
                   </button>
                   <button
                     onClick={() => handleDelete(task._id)}
-                    className="task-button delete"
+                    className="task-button"
                   >
                     Delete
                   </button>
@@ -205,4 +206,4 @@ function Tasks() {
   );
 }
 
-export default Tasks; 
+export default Tasks;
