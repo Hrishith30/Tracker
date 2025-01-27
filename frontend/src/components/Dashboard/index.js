@@ -44,6 +44,10 @@ function Dashboard() {
     // Update time every second
     const timer = setInterval(() => {
       setCurrentDateTime(new Date());
+      // Fetch dashboard data every minute to keep routines updated
+      if (new Date().getSeconds() === 0) {
+        fetchDashboardData();
+      }
     }, 1000);
 
     // Cleanup interval on component unmount
@@ -65,13 +69,34 @@ function Dashboard() {
         return exp.type === 'income' ? sum + exp.amount : sum - exp.amount;
       }, 0);
 
-      // Fetch today's routines
+      // Fetch routines with reset check
       const routinesResponse = await routineApi.getAll();
-      const today = new Date().toISOString().split('T')[0];
+      const today = new Date();
+      const offset = today.getTimezoneOffset();
+      const localDate = new Date(today.getTime() - (offset * 60 * 1000))
+        .toISOString()
+        .split('T')[0];
+
+      // Check if routines need to be reset for today
       const todayRoutines = routinesResponse.data.filter(routine => {
         const routineDate = new Date(routine.date).toISOString().split('T')[0];
-        return routineDate === today;
+        return routineDate === localDate;
       });
+
+      // If no routines exist for today, create new ones
+      if (todayRoutines.length === 0) {
+        try {
+          await routineApi.resetDaily(); // You'll need to implement this endpoint
+          const updatedRoutinesResponse = await routineApi.getAll();
+          const updatedTodayRoutines = updatedRoutinesResponse.data.filter(routine => {
+            const routineDate = new Date(routine.date).toISOString().split('T')[0];
+            return routineDate === localDate;
+          });
+          todayRoutines = updatedTodayRoutines;
+        } catch (error) {
+          console.error('Error resetting daily routines:', error);
+        }
+      }
       
       const todayCompleted = todayRoutines.filter(routine => routine.completed).length;
 

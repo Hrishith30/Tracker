@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { expenseApi } from '../../services/api';
 import './Expenses.css';
-import { formatLocalDate, getLocalISOString } from '../../utils/dateUtils';
+import { formatLocalDate, getLocalISOString, formatDateTime } from '../../utils/dateUtils';
 
 function Expenses() {
   const [transactions, setTransactions] = useState([]);
@@ -42,15 +42,17 @@ function Expenses() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Adjust the date to avoid timezone issues
-      const adjustedDate = new Date(formData.date);
-      adjustedDate.setMinutes(adjustedDate.getMinutes() + adjustedDate.getTimezoneOffset());
+      const now = new Date();
+      // Create date from form input without timezone adjustment
+      const selectedDate = new Date(formData.date + 'T12:00:00');
+      // Set current time
+      selectedDate.setHours(now.getHours(), now.getMinutes(), now.getSeconds());
       
       const response = await expenseApi.create({
         ...formData,
-        date: adjustedDate.toISOString(),
+        date: selectedDate.toISOString(),
         amount: parseFloat(formData.amount),
-        timestamp: new Date().getTime()
+        timestamp: now.toISOString()
       });
       setTransactions([response.data, ...transactions]);
       // Reset form
@@ -172,7 +174,7 @@ function Expenses() {
             <table>
               <thead>
                 <tr>
-                  <th>Date</th>
+                  <th>Date & Time</th>
                   <th>Type</th>
                   <th>Category</th>
                   <th>Description</th>
@@ -183,7 +185,7 @@ function Expenses() {
               <tbody>
                 {transactions.map(transaction => (
                   <tr key={transaction._id}>
-                    <td>{formatLocalDate(transaction.date)}</td>
+                    <td>{formatDateTime(transaction.date)}</td>
                     <td>
                       <span className={`type-badge ${transaction.type}`}>
                         {transaction.type}

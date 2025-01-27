@@ -1,20 +1,26 @@
 import { useState, useEffect } from 'react';
 import { routineApi } from '../../services/api';
 import './DailyRoutine.css';
-import { formatLocalDateTime, getLocalISOString } from '../../utils/dateUtils';
 
 function DailyRoutine() {
   const [routines, setRoutines] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(getLocalISOString().split('T')[0]);
+  const today = new Date();
+  const offset = today.getTimezoneOffset();
+  const localDate = new Date(today.getTime() - (offset * 60 * 1000))
+    .toISOString()
+    .split('T')[0];
+
+  const [selectedDate, setSelectedDate] = useState(localDate);
   const [formData, setFormData] = useState({
     activity: '',
     category: 'work',
     priority: 'medium',
     notes: '',
     mood: 'neutral',
-    reflection: ''
+    reflection: '',
+    date: localDate
   });
 
   const categories = {
@@ -43,7 +49,7 @@ function DailyRoutine() {
   const fetchRoutines = async () => {
     try {
       setLoading(true);
-      const response = await routineApi.getAll({ date: selectedDate });
+      const response = await routineApi.getAll(selectedDate);
       const filteredRoutines = response.data.filter(routine => 
         routine.date.split('T')[0] === selectedDate
       );
@@ -60,12 +66,9 @@ function DailyRoutine() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const currentDateTime = new Date().toISOString();
-      const response = await routineApi.create({
-        ...formData,
-        date: `${selectedDate}T${currentDateTime.split('T')[1]}`
-      });
-      if (response.data.date.split('T')[0] === selectedDate) {
+      const routineWithDate = { ...formData, date: selectedDate };
+      const response = await routineApi.create(routineWithDate);
+      if (response.data.date === selectedDate) {
         setRoutines([...routines, response.data]);
       }
       setFormData({
@@ -74,7 +77,8 @@ function DailyRoutine() {
         priority: 'medium',
         notes: '',
         mood: 'neutral',
-        reflection: ''
+        reflection: '',
+        date: selectedDate
       });
       setError(null);
     } catch (err) {
@@ -116,6 +120,23 @@ function DailyRoutine() {
     });
   };
 
+  const handleDateChange = (e) => {
+    setSelectedDate(e.target.value);
+    setFormData(prev => ({ ...prev, date: e.target.value }));
+  };
+
+  const formatDateTime = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    });
+  };
+
   return (
     <div className="daily-routine">
       <div className="routine-header">
@@ -123,7 +144,7 @@ function DailyRoutine() {
         <input
           type="date"
           value={selectedDate}
-          onChange={(e) => setSelectedDate(e.target.value)}
+          onChange={handleDateChange}
           className="date-picker"
         />
       </div>
@@ -228,12 +249,15 @@ function DailyRoutine() {
                     className={`routine-item ${routine.completed ? 'completed' : ''} ${routine.reflection ? 'reflection-type' : 'activity-type'}`}
                   >
                     <div className={`routine-content category-${routine.category}`}>
+                      <div className="routine-meta">
+                        <div className="meta-column">
+                          <span className="timestamp">{formatDateTime(routine.createdAt)}</span>
+                          <span className="mood-indicator">{moods[routine.mood]}</span>
+                        </div>
+                      </div>
                       <div className="routine-info">
                         <div className="routine-header">
                           <h3>{routine.activity}</h3>
-                          <span className="mood-indicator">
-                            {moods[routine.mood]}
-                          </span>
                         </div>
                         <span className="category-badge">
                           {categories[routine.category]}
@@ -244,15 +268,6 @@ function DailyRoutine() {
                         {routine.reflection && (
                           <p className="routine-reflection">{routine.reflection}</p>
                         )}
-                        <span className="routine-time">
-                          {new Date(routine.date).toLocaleString('en-US', {
-                            hour: 'numeric',
-                            minute: '2-digit',
-                            hour12: true,
-                            month: 'short',
-                            day: 'numeric'
-                          })}
-                        </span>
                       </div>
                       <div className="routine-actions">
                         <button

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { taskApi } from '../../services/api';
 import './Tasks.css';
-import { formatLocalDateTime, getLocalISOString } from '../../utils/dateUtils';
+import { formatLocalDateTime, getLocalISOString, formatDateTime } from '../../utils/dateUtils';
 
 function Tasks() {
   const [tasks, setTasks] = useState([]);
@@ -9,9 +9,7 @@ function Tasks() {
   const [newTask, setNewTask] = useState({
     title: '',
     description: '',
-    dueDate: new Date(Date.now() - (new Date().getTimezoneOffset() * 60000))
-      .toISOString()
-      .slice(0, 16),
+    dueDate: getLocalISOString().split('T')[0],
     priority: 'medium',
     status: 'pending'
   });
@@ -46,11 +44,13 @@ function Tasks() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Convert to local time before sending to server
-      const localDate = new Date(newTask.dueDate);
+      const now = new Date();
+      const selectedDate = new Date(newTask.dueDate + 'T12:00:00');
+      selectedDate.setHours(now.getHours(), now.getMinutes(), now.getSeconds());
+      
       const taskToSubmit = {
         ...newTask,
-        dueDate: new Date(localDate.getTime() - (localDate.getTimezoneOffset() * 60000)).toISOString()
+        dueDate: selectedDate.toISOString()
       };
       
       const response = await taskApi.create(taskToSubmit);
@@ -58,9 +58,7 @@ function Tasks() {
       setNewTask({
         title: '',
         description: '',
-        dueDate: new Date(Date.now() - (new Date().getTimezoneOffset() * 60000))
-          .toISOString()
-          .slice(0, 16),
+        dueDate: getLocalISOString().split('T')[0],
         priority: 'medium',
         status: 'pending'
       });
@@ -132,7 +130,7 @@ function Tasks() {
           
           <h3 className="thin-heading">Due</h3>
           <input
-            type="datetime-local"
+            type="date"
             name="dueDate"
             value={newTask.dueDate}
             onChange={handleInputChange}
@@ -183,15 +181,7 @@ function Tasks() {
                     </span>
                     {task.dueDate && (
                       <span className="due-date">
-                        Due: {new Date(new Date(task.dueDate).getTime() + 
-                          (new Date().getTimezoneOffset() * 60000)).toLocaleString(undefined, {
-                          year: 'numeric',
-                          month: '2-digit',
-                          day: '2-digit',
-                          hour: '2-digit',
-                          minute: '2-digit',
-                          hour12: true,
-                        })}
+                        Due: {formatDateTime(task.dueDate)}
                       </span>
                     )}
                     <span className={`status ${task.status}`}>
