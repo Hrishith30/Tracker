@@ -5,6 +5,10 @@ const routineSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  date: {
+    type: Date,
+    required: true
+  },
   category: {
     type: String,
     enum: ['work', 'exercise', 'study', 'selfCare', 'meals', 'leisure', 'important', 'health'],

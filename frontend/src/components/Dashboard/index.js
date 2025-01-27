@@ -44,13 +44,12 @@ function Dashboard() {
     // Update time every second
     const timer = setInterval(() => {
       setCurrentDateTime(new Date());
-      // Fetch dashboard data every minute to keep routines updated
+      // Fetch dashboard data every minute
       if (new Date().getSeconds() === 0) {
         fetchDashboardData();
       }
     }, 1000);
 
-    // Cleanup interval on component unmount
     return () => clearInterval(timer);
   }, []);
 
@@ -69,39 +68,28 @@ function Dashboard() {
         return exp.type === 'income' ? sum + exp.amount : sum - exp.amount;
       }, 0);
 
-      // Fetch routines with reset check
-      const routinesResponse = await routineApi.getAll();
+      // Get recent transactions (last 5)
+      const recentTransactions = expenses
+        .sort((a, b) => new Date(b.date) - new Date(a.date))
+        .slice(0, 5);
+
+      // Fetch routines
       const today = new Date();
       const offset = today.getTimezoneOffset();
       const localDate = new Date(today.getTime() - (offset * 60 * 1000))
         .toISOString()
         .split('T')[0];
 
-      // Check if routines need to be reset for today
+      const routinesResponse = await routineApi.getAll(localDate);
       const todayRoutines = routinesResponse.data.filter(routine => {
         const routineDate = new Date(routine.date).toISOString().split('T')[0];
         return routineDate === localDate;
       });
 
-      // If no routines exist for today, create new ones
-      if (todayRoutines.length === 0) {
-        try {
-          await routineApi.resetDaily(); // You'll need to implement this endpoint
-          const updatedRoutinesResponse = await routineApi.getAll();
-          const updatedTodayRoutines = updatedRoutinesResponse.data.filter(routine => {
-            const routineDate = new Date(routine.date).toISOString().split('T')[0];
-            return routineDate === localDate;
-          });
-          todayRoutines = updatedTodayRoutines;
-        } catch (error) {
-          console.error('Error resetting daily routines:', error);
-        }
-      }
-      
       const todayCompleted = todayRoutines.filter(routine => routine.completed).length;
 
       // Process monthly data
-      const monthlyStats = processMonthlyData(expensesResponse.data);
+      const monthlyStats = processMonthlyData(expenses);
       setMonthlyData(monthlyStats);
 
       setStats({
@@ -115,7 +103,7 @@ function Dashboard() {
         },
         routines: {
           todayTotal: todayRoutines.length,
-          todayCompleted: todayCompleted
+          todayCompleted
         }
       });
     } catch (error) {
@@ -278,7 +266,7 @@ function Dashboard() {
           </div>
         </div>
 
-        {/* Add Monthly Financial Chart */}
+        {/* Monthly Financial Chart */}
         <div className="dashboard-card full-width">
           <h2>Monthly Financial Overview</h2>
           <div className="chart-container">

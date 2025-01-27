@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-const API_URL = 'https://trackerback.onrender.com/api';
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
-// Create axios instance with base configuration
+// Create axios instance with default config
 const api = axios.create({
   baseURL: API_URL,
   headers: {
@@ -10,7 +10,7 @@ const api = axios.create({
   }
 });
 
-// Add interceptor to add auth token to requests
+// Request interceptor for adding auth token
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
@@ -20,6 +20,15 @@ api.interceptors.request.use(
     return config;
   },
   (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// Response interceptor for handling errors
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    console.error('API Error:', error.response?.data || error.message);
     return Promise.reject(error);
   }
 );
@@ -77,11 +86,58 @@ export const expenseApi = {
 
 // Routines API
 export const routineApi = {
-  getAll: () => api.get('/routines'),
-  create: (routine) => api.post('/routines', routine),
-  update: (id, updates) => api.patch(`/routines/${id}`, updates),
-  delete: (id) => api.delete(`/routines/${id}`),
-  toggle: (id) => api.patch(`/routines/${id}/toggle`),
+  getAll: async (date) => {
+    try {
+      const response = await api.get(`/routines`, {
+        params: { date }
+      });
+      return response;
+    } catch (error) {
+      console.error('Failed to fetch routines:', error);
+      throw error;
+    }
+  },
+
+  create: async (data) => {
+    try {
+      const response = await api.post('/routines', data);
+      return response;
+    } catch (error) {
+      console.error('Failed to create routine:', error);
+      throw error;
+    }
+  },
+
+  update: async (id, data) => {
+    try {
+      const response = await api.patch(`/routines/${id}`, data);
+      return response;
+    } catch (error) {
+      console.error('Failed to update routine:', error);
+      throw error;
+    }
+  },
+
+  delete: async (id) => {
+    try {
+      const response = await api.delete(`/routines/${id}`);
+      return response;
+    } catch (error) {
+      console.error('Failed to delete routine:', error);
+      throw error;
+    }
+  },
+
+  toggle: async (id) => {
+    try {
+      const response = await api.patch(`/routines/${id}/toggle`);
+      return response;
+    } catch (error) {
+      console.error('Failed to toggle routine:', error);
+      throw error;
+    }
+  },
+
   getStats: (params) => api.get('/routines/stats', { params })
 };
 

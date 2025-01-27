@@ -6,70 +6,114 @@ const auth = require('../middleware/auth');
 // Get all routines for logged in user
 router.get('/', auth, async (req, res) => {
   try {
-    const routines = await Routine.find({ user: req.userId });
+    const { date } = req.query;
+    let query = { user: req.userId };
+    
+    if (date) {
+      const startDate = new Date(date);
+      startDate.setUTCHours(0, 0, 0, 0);
+      
+      const endDate = new Date(date);
+      endDate.setUTCHours(23, 59, 59, 999);
+      
+      query.date = {
+        $gte: startDate,
+        $lte: endDate
+      };
+    }
+
+    const routines = await Routine.find(query).sort({ createdAt: -1 });
     res.json(routines);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error('Error fetching routines:', err);
+    res.status(500).json({ message: 'Failed to fetch routines' });
   }
 });
 
 // Create a new routine
 router.post('/', auth, async (req, res) => {
-  const routine = new Routine({
-    ...req.body,
-    user: req.userId // Add user ID to routine
-  });
-
   try {
+    const routine = new Routine({
+      ...req.body,
+      user: req.userId,
+      date: new Date(req.body.date) // Ensure date is properly converted
+    });
+
     const newRoutine = await routine.save();
     res.status(201).json(newRoutine);
   } catch (err) {
+    console.error('Error creating routine:', err);
     res.status(400).json({ message: err.message });
   }
 });
 
 // Update routine
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', auth, async (req, res) => {
   try {
-    const routine = await Routine.findById(req.params.id);
-    if (!routine) return res.status(404).json({ message: 'Routine not found' });
+    const routine = await Routine.findOne({ 
+      _id: req.params.id,
+      user: req.userId 
+    });
+    
+    if (!routine) {
+      return res.status(404).json({ message: 'Routine not found' });
+    }
 
     Object.keys(req.body).forEach(key => {
       if (req.body[key] != null) {
-        routine[key] = req.body[key];
+        if (key === 'date') {
+          routine[key] = new Date(req.body[key]);
+        } else {
+          routine[key] = req.body[key];
+        }
       }
     });
 
     const updatedRoutine = await routine.save();
     res.json(updatedRoutine);
   } catch (err) {
+    console.error('Error updating routine:', err);
     res.status(400).json({ message: err.message });
   }
 });
 
 // Delete routine
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
   try {
-    const routine = await Routine.findById(req.params.id);
-    if (!routine) return res.status(404).json({ message: 'Routine not found' });
+    const routine = await Routine.findOne({ 
+      _id: req.params.id,
+      user: req.userId 
+    });
+    
+    if (!routine) {
+      return res.status(404).json({ message: 'Routine not found' });
+    }
 
     await Routine.deleteOne({ _id: req.params.id });
     res.json({ message: 'Routine deleted' });
   } catch (err) {
+    console.error('Error deleting routine:', err);
     res.status(500).json({ message: err.message });
   }
 });
 
 // Toggle routine completion
-router.patch('/:id/toggle', async (req, res) => {
+router.patch('/:id/toggle', auth, async (req, res) => {
   try {
-    const routine = await Routine.findById(req.params.id);
-    if (!routine) return res.status(404).json({ message: 'Routine not found' });
+    const routine = await Routine.findOne({ 
+      _id: req.params.id,
+      user: req.userId 
+    });
+    
+    if (!routine) {
+      return res.status(404).json({ message: 'Routine not found' });
+    }
 
     routine.completed = !routine.completed;
     const updatedRoutine = await routine.save();
     res.json(updatedRoutine);
   } catch (err) {
+    console.error('Error toggling routine:', err);
     res.status(400).json({ message: err.message });
   }
 });

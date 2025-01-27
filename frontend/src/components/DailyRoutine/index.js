@@ -49,15 +49,20 @@ function DailyRoutine() {
   const fetchRoutines = async () => {
     try {
       setLoading(true);
-      const response = await routineApi.getAll(selectedDate);
-      const filteredRoutines = response.data.filter(routine => 
-        routine.date.split('T')[0] === selectedDate
-      );
-      setRoutines(filteredRoutines);
       setError(null);
+      console.log('Fetching routines for date:', selectedDate);
+      const response = await routineApi.getAll(selectedDate);
+      console.log('Fetched routines:', response.data);
+      
+      // Sort routines by creation date, newest first
+      const sortedRoutines = response.data.sort((a, b) => 
+        new Date(b.createdAt) - new Date(a.createdAt)
+      );
+      
+      setRoutines(sortedRoutines);
     } catch (err) {
-      setError('Failed to fetch routines');
-      console.error('Error:', err);
+      console.error('Error fetching routines:', err);
+      setError(err.response?.data?.message || 'Failed to fetch routines');
     } finally {
       setLoading(false);
     }
@@ -66,11 +71,21 @@ function DailyRoutine() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const routineWithDate = { ...formData, date: selectedDate };
+      setError(null);
+      const routineWithDate = { 
+        ...formData,
+        date: selectedDate // Ensure we're using the selectedDate
+      };
+      
+      console.log('Submitting routine:', routineWithDate); // Debug log
+      
       const response = await routineApi.create(routineWithDate);
-      if (response.data.date === selectedDate) {
-        setRoutines([...routines, response.data]);
-      }
+      console.log('Created routine:', response.data); // Debug log
+      
+      // Immediately add the new routine to the state
+      setRoutines(prevRoutines => [...prevRoutines, response.data]);
+      
+      // Reset form
       setFormData({
         activity: '',
         category: 'work',
@@ -80,10 +95,13 @@ function DailyRoutine() {
         reflection: '',
         date: selectedDate
       });
-      setError(null);
+      
+      // Optional: Show success message
+      // toast.success('Entry added successfully');
+      
     } catch (err) {
-      setError('Failed to create routine');
-      console.error('Error:', err);
+      console.error('Error creating routine:', err);
+      setError(err.response?.data?.message || 'Failed to create routine');
     }
   };
 
@@ -136,6 +154,15 @@ function DailyRoutine() {
       second: '2-digit'
     });
   };
+
+  // Optional: Add a useEffect to sort routines whenever they change
+  useEffect(() => {
+    setRoutines(prevRoutines => 
+      [...prevRoutines].sort((a, b) => 
+        new Date(b.createdAt) - new Date(a.createdAt)
+      )
+    );
+  }, []);
 
   return (
     <div className="daily-routine">
