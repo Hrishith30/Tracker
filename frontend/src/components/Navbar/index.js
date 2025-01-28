@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useState, useEffect } from 'react';
 import './Navbar.css';
+import logo from '../../assets/logo.png';
 
 function Navbar() {
   const { isAuthenticated, logout } = useAuth();
@@ -35,7 +36,7 @@ function Navbar() {
     <nav className="navbar">
       <div className="navbar-brand">
         <Link to="/" className="navbar-logo">
-          Tracker
+          <img src={logo} alt="Tracker Logo" className="logo-image" style={{ height: '40px', width: 'auto' }} />
         </Link>
         {isMobile && (
           <button 

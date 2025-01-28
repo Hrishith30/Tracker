@@ -5,6 +5,7 @@
   top: 0;
   z-index: 1000;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  padding: 1rem 2rem;
 }
 
 .navbar-brand {
@@ -19,6 +20,26 @@
   font-weight: bold;
   color: rgba(255, 255, 255, 0.9);
   text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  background: none;
+  outline: none;
+}
+
+.navbar-logo:focus {
+  outline: none;
+}
+
+.logo-image {
+  height: 20px;
+  width: auto;
+}
+
+.navbar .logo-image {
+  height: 50px !important;
+  width: auto !important;
 }
 
 /* Hamburger Menu Styles - Mobile Only */
@@ -107,7 +128,7 @@
   }
 
   .navbar {
-    padding: 1rem 2rem;
+    padding: 1.5rem 3rem;
   }
 
   .navbar-brand {
